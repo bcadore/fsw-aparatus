@@ -28,7 +28,7 @@ const BookingItem = ({
             <Avatar className="h-6 w-6">
               <AvatarImage src={barbershopImageUrl} />
             </Avatar>
-            <p className="text-auted foreground text-sm">{barbershopName}</p>
+            <p className="text-muted-foreground text-sm">{barbershopName}</p>
           </div>
         </div>
       </div>
