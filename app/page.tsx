@@ -1,12 +1,19 @@
 import Image from "next/image";
-import Header from "./_components/ui/header";
-import SearchInput from "./_components/ui/search-inputs";
+
+import Header from "./_components/header";
+import SearchInput from "./_components/search-input";
+import BookingItem from "./_components/booking-item";
+import BarbershopItem from "./_components/barbershop-item";
+import Footer from "./_components/footer";
 
 import banner from "../public/banner.png";
-import BookingItem from "./_components/ui/booking-item";
 import { prisma } from "@/lib/prisma";
-import BarbershopItem from "./_components/ui/barbershop-item";
-import Footer from "./_components/ui/footer";
+import {
+  PageContainer,
+  PageSection,
+  PageSectionScroller,
+  PageSectionTitle,
+} from "./_components/ui/Page";
 
 const Home = async () => {
   const recomendedBarbershops = await prisma.barbershop.findMany({
@@ -22,7 +29,7 @@ const Home = async () => {
   return (
     <main>
       <Header />
-      <div className="space-y-4 p-5">
+      <PageContainer>
         <SearchInput />
         <Image
           src={banner}
@@ -30,32 +37,32 @@ const Home = async () => {
           sizes="100vw"
           className="h-auto w-full"
         />
-        <h2 className="text-ts text-foreground font-semibold uppercase">
-          Agendamentos
-        </h2>
-        <BookingItem
-          serviceName="Corte de cabelo"
-          barbershopName="Barbearia do João"
-          barbershopImageUrl="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png"
-          date={new Date()}
-        />
-        <h2 className="text-ts text-foreground font-semibold uppercase">
-          Recomendados
-        </h2>
-        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {recomendedBarbershops.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          ))}
-        </div>
-        <h2 className="text-ts text-foreground font-semibold uppercase">
-          Popular
-        </h2>
-        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {popularBarbershops.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          ))}
-        </div>
-      </div>
+        <PageSection>
+          <PageSectionTitle>Agendamentos</PageSectionTitle>
+          <BookingItem
+            serviceName="Corte de cabelo"
+            barbershopName="Barbearia do João"
+            barbershopImageUrl="https://utfs.io/f/c97a2dc9-cf62-468b-a851-bfd2bdde775f-16p.png"
+            date={new Date()}
+          />
+        </PageSection>
+        <PageSection>
+          <PageSectionTitle>Recomendados</PageSectionTitle>
+          <PageSectionScroller>
+            {recomendedBarbershops.map((barbershop) => (
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            ))}
+          </PageSectionScroller>
+        </PageSection>
+        <PageSection>
+          <PageSectionTitle>Popular</PageSectionTitle>
+          <PageSectionScroller>
+            {popularBarbershops.map((barbershop) => (
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            ))}
+          </PageSectionScroller>
+        </PageSection>
+      </PageContainer>
       <Footer />
     </main>
   );
